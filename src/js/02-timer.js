@@ -19,14 +19,12 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-
         if ((selectedDates[0]) > currentDate) {
             Notiflix.Notify.success('Nice! You choose a date in the future');
             btnStart.disabled = false;
         } else {
             return Notiflix.Notify.failure('Please choose a date in the future');
         }
-        return selectedDates[0];
     }          
 };
 const fp = flatpickr("#datetime-picker", options);
@@ -54,6 +52,7 @@ class Timer {
             const timeComponents = this.convertMs(deltaTime);
             this.onTick(timeComponents);
         }, PROMPT_DELAY);
+        btnStart.disabled = 'disable';
     };
     convertMs(ms) {
         const second = 1000;
