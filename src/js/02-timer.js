@@ -41,9 +41,10 @@ console.log(deltaTime);
       
 function onBtnStartClick() {
     timerId = setInterval(() => {
-        convertMs(deltaTime);
+    convertMs(deltaTime);
+    timerInterface(deltaTime);
+        console.log(timerInterface);
     }, PROMPT_DELAY);
-   return timerInterface();
 };
 
 function convertMs(ms) {
@@ -64,7 +65,6 @@ function convertMs(ms) {
 function addLeadingZero(value) {
     return String(value).padStart(2, '0');
 };
-
 
 function timerInterface ({ days, hours, minutes, seconds }) {
     daysEl.textContent = `${days}`;
