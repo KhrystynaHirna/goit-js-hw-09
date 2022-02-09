@@ -10,10 +10,8 @@ const minutesEl = document.querySelector('[data-minutes]');
 const secondsEl = document.querySelector('[data-seconds]');
 
 const PROMPT_DELAY = 1000;
-let timerId = null;
+const currentDate = Date.now();
 btnStart.disabled = 'disable';
-
-btnStart.addEventListener('click', onBtnStartClick);
 
 const options = {
     enableTime: true,
@@ -32,46 +30,56 @@ const options = {
     }          
 };
 const fp = flatpickr("#datetime-picker", options);
-const currentDate = Date.now();
-const selectedTime = fp.selectedDates[0].getTime();
-const deltaTime = selectedTime - currentDate;
-console.log(currentDate);
-console.log(selectedTime);
-console.log(deltaTime);
-      
-function onBtnStartClick() {
-    timerId = setInterval(() => {
-    convertMs(deltaTime);
-    timerInterface(deltaTime);
-        console.log(timerInterface);
-    }, PROMPT_DELAY);
+
+class Timer {
+    constructor({ onTick }) {
+        this.timerId = null;
+        this.isActive = false;
+        this.onTick = onTick;
+    };
+    start() {
+        if (this.isActive) {
+            return;
+        }
+        this.isActive = true;
+        const selectedTime = fp.selectedDates[0].getTime();
+    
+        this.timerId = setInterval(() => {
+            const deltaTime = selectedTime - currentDate;
+        
+            if (deltaTime < 0) {
+                clearInterval(this.timerId);
+                return;
+            }
+            const timeComponents = this.convertMs(deltaTime);
+            this.onTick(timeComponents);
+        }, PROMPT_DELAY);
+    };
+    convertMs(ms) {
+        const second = 1000;
+        const minute = second * 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+
+        const days = this.addLeadingZero(Math.floor(ms / day));
+        const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
+        const minutes = this.addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+        const seconds = this.addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
+
+        return { days, hours, minutes, seconds };
+    };
+    addLeadingZero(value) {
+        return String(value).padStart(2, '0');
+    };
 };
-
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  const days = addLeadingZero(Math.floor(ms / day));
-  const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-  const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
-
-    return { days, hours, minutes, seconds };
-}
-
-function addLeadingZero(value) {
-    return String(value).padStart(2, '0');
-};
-
-function timerInterface ({ days, hours, minutes, seconds }) {
+const timer = new Timer({
+onTick: timerUpdateInterface,
+});
+function timerUpdateInterface ({ days, hours, minutes, seconds }) {
     daysEl.textContent = `${days}`;
     hoursEl.textContent = `${hours}`;
     minutesEl.textContent = `${minutes}`;
     secondsEl.textContent = `${seconds}`;
+};
 
-    return { days, hours, minutes, seconds };
-}
-
+btnStart.addEventListener('click', timer.start.bind(timer));

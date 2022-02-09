@@ -1,17 +1,23 @@
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-// delayInput = document.querySelector('delay');
-// stepInput = document.querySelector('step');
-// amountInput = document.querySelector('amount');
-// button = document.querySelector('.form button');
+const delay = document.querySelector('delay');
+const step =  document.querySelector('step');
+const amount = document.querySelector('amount');
+const button = document.querySelector('.form button');
 const form = document.querySelector('.form');
 
 form.addEventListener('submit', onFormSubmit);
 form.addEventListener('input', onFormInput);
 
+const formData = {
+  delay: delay.number,
+  step: step.number,
+  amount: amount.number,  
+};
+
 function onFormInput(evt) {
-    formData[evt.target.name] = evt.target.value;
+    formData[evt.target.name] = evt.target.number;
     console.log(formData);
 };
 
