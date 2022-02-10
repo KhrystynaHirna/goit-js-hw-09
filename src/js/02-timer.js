@@ -3,11 +3,11 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-const btnStart = document.querySelector('[data-start]');
-const daysEl = document.querySelector('[data-days]');
-const hoursEl = document.querySelector('[data-hours]');
-const minutesEl = document.querySelector('[data-minutes]');
-const secondsEl = document.querySelector('[data-seconds]');
+const btnStart = document.querySelector('button[data-start]');
+const daysEl = document.querySelector('.field [data-days]');
+const hoursEl = document.querySelector('.field [data-hours]');
+const minutesEl = document.querySelector('.field [data-minutes]');
+const secondsEl = document.querySelector('.field [data-seconds]');
 
 const PROMPT_DELAY = 1000;
 const currentDate = Date.now();
@@ -71,7 +71,7 @@ class Timer {
         return String(value).padStart(2, '0');
     };
 };
-const timer = new Timer({
+const timer = new Timer ({
 onTick: timerUpdateInterface,
 });
 function timerUpdateInterface ({ days, hours, minutes, seconds }) {
