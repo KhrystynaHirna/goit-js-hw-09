@@ -43,6 +43,7 @@ class Timer {
         const selectedTime = fp.selectedDates[0].getTime();
     
         this.timerId = setInterval(() => {
+            const currentDate = Date.now();
             const deltaTime = selectedTime - currentDate;
         
             if (deltaTime < 0) {
@@ -72,8 +73,9 @@ class Timer {
     };
 };
 const timer = new Timer ({
-onTick: timerUpdateInterface,
+    onTick: timerUpdateInterface,
 });
+
 function timerUpdateInterface ({ days, hours, minutes, seconds }) {
     daysEl.textContent = `${days}`;
     hoursEl.textContent = `${hours}`;
