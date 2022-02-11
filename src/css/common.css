@@ -16,3 +16,42 @@ img {
   display: block;
   max-width: 100%;
 }
+input {
+  font-size: 24px;
+  width: 400px;
+  height: 50px;
+  padding: 0 10px;
+  border-radius: 4px;
+  border-color: darkblue;
+}
+input.flatpickr-input {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+button {
+  display: flex;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.field {
+  margin-left: 5px;
+  border: 1px solid darkblue;
+  border-radius: 4px;
+  background-color: rgb(212, 209, 209);
+}
+.value {
+  font-size: 24px;
+  margin-left: 5px;
+}
+.label {
+  color: darkblue;
+  margin-right: 5px;
+}
